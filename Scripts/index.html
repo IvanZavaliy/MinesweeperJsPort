@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="control-panel">
+    <fieldset>
+        <legend>Field size:</legend>
+        <div class="fieldsed-content">
+            <label>
+                Width
+                <input type="number" id="minefieldWidth" min="5" max="40" value="10">
+            </label>
+            <label>
+                Height
+                <input type="number" id="minefieldHeight" min="5" max="25" value="10">
+            </label>
+        </div>
+    </fieldset>
+    <button id="minefieldGenerator">Generate minefield</button>
+</div>
+
+<dialog id="dialog">
+    <p id="dialogMassage"></p>
+    <button id="dialogButton">OK</button>
+</dialog>
+
+<div id="minefield" class="minefield"></div>
+
+<script src="minesweeper.js"></script>
+</body>
+</html>
