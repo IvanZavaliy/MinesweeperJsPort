@@ -5,6 +5,17 @@ let grid = [];
 let isGameFinished = false;
 let openedCellsCount = 0;
 
+const selectCellColor = {
+    1 : "blue",
+    2 : "green",
+    3 : "red",
+    4 : "darkblue",
+    5 : "darkred",
+    6 : "darkcyan",
+    7 : "black",
+    8 : "gray"
+};
+
 const minefield = document.getElementById("minefield");
 const dialog = document.getElementById("dialog");
 
@@ -136,8 +147,10 @@ function openCell(cellData) {
         return;
     }
 
-    if (cellData.mineCount > 0)
+    if (cellData.mineCount > 0) {
         cell.textContent = cellData.mineCount;
+        cell.style.color = selectCellColor[cellData.mineCount];
+    }
     else
         openNeighbours(cellData.row, cellData.col);
 
@@ -173,8 +186,10 @@ function openNeighbours(row, col) {
                     openedCellsCount++;
                     if (neighbour.mineCount === 0)
                         openNeighbours(neighbourRow, neighbourCol);
-                    else
+                    else {
                         neighbour.element.textContent = neighbour.mineCount;
+                        neighbour.element.style.color = selectCellColor[neighbour.mineCount];
+                    }
                 }
             }
         }
