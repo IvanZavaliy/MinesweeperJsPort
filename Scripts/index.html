@@ -20,12 +20,16 @@
             </label>
         </div>
     </fieldset>
+    <label>
+        Mine count:
+        <input type="number" id="mineCount" min="1" max="100" value="10">
+    </label>
     <button id="minefieldGenerator">Generate minefield</button>
 </div>
 
 <dialog id="dialog">
     <p id="dialogMassage"></p>
-    <button id="dialogButton">OK</button>
+    <button id="dialogButton">Retry</button>
 </dialog>
 
 <div id="minefield" class="minefield"></div>
