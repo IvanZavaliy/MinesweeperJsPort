@@ -3,6 +3,7 @@ let minefieldHeight = 10;
 let mineAmount = 10;
 let grid = [];
 let isGameFinished = false;
+let isGameStarted = false;
 let openedCellsCount = 0;
 
 const selectCellColor = {
@@ -39,6 +40,7 @@ function startGame() {
 }
 
 function resetMinefield() {
+    isGameStarted = false;
     isGameFinished = false;
     openedCellsCount = 0;
     grid = [];
@@ -49,8 +51,6 @@ function setupMinefield() {
     minefield.style.gridTemplateColumns = `repeat(${minefieldHeight}, 30px)`;
 
     createMinefield();
-    mineGenerator();
-    calculateNeighbours();
 }
 
 function createMinefield() {
@@ -70,7 +70,6 @@ function createMinefield() {
                 isFlagged: false
             }
 
-            // create click event listener
             cell.addEventListener("click", () => openCell(cellData));
             cell.addEventListener("contextmenu", (event) => {
                 event.preventDefault();
@@ -84,14 +83,21 @@ function createMinefield() {
     }
 }
 
-function mineGenerator() {
+function mineGenerator(cellData) {
     let minesPlacedCount = 0;
 
     while (minesPlacedCount < mineAmount) {
         const row = Math.floor(Math.random() * minefieldWidth);
         const col = Math.floor(Math.random() * minefieldHeight);
 
-        if (!grid[row][col].isMine) {
+        if (grid[row][col].isMine) {
+            continue
+        }
+
+        const isInSafeArea = Math.abs(row - cellData.row) <= 1 &&
+            Math.abs(col - cellData.col) <= 1;
+
+        if (!isInSafeArea) {
             grid[row][col].isMine = true;
             minesPlacedCount++;
         }
@@ -130,6 +136,13 @@ function isInsideGrid(row, col) {
 }
 
 function openCell(cellData) {
+    if (!isGameStarted)
+    {
+        isGameStarted = true;
+        mineGenerator(cellData);
+        calculateNeighbours();
+    }
+
     if (isGameFinished || cellData.isOpened || cellData.isFlagged)
         return;
 
