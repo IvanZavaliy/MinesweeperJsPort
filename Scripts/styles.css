@@ -99,6 +99,7 @@ button:hover {
 
 .cell.flagged {
     background-color: rgba(255, 0, 0, 0.3);
+    color: #910000;
     background-image: url('../Assets/Images/flag.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -122,4 +123,8 @@ button {
     margin-top: 10px;
     padding: 5px 10px;
     cursor: pointer;
+}
+
+.cellText {
+
 }

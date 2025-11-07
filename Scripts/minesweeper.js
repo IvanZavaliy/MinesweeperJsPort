@@ -9,8 +9,8 @@ const minefield = document.getElementById("minefield");
 const dialog = document.getElementById("dialog");
 
 document.getElementById("minefieldGenerator").addEventListener("click", () => {
-    minefieldWidth = parseInt(document.getElementById("minefieldWidth").value);
-    minefieldHeight = parseInt(document.getElementById("minefieldHeight").value);
+    minefieldWidth = parseInt(document.getElementById("minefieldHeight").value);
+    minefieldHeight = parseInt(document.getElementById("minefieldWidth").value);
 
     mineAmount = parseInt(document.getElementById("mineCount").value);
 
@@ -119,15 +119,10 @@ function isInsideGrid(row, col) {
 }
 
 function openCell(cellData) {
-    if (isGameFinished || cellData.isOpened)
+    if (isGameFinished || cellData.isOpened || cellData.isFlagged)
         return;
 
     const cell = cellData.element;
-
-    if (cellData.isFlagged) {
-        cellData.isFlagged = false;
-        cell.classList.remove("flagged");
-    }
 
     cellData.isOpened = true;
     openedCellsCount++;
@@ -136,6 +131,7 @@ function openCell(cellData) {
     if (cellData.isMine) {
         isGameFinished = true;
         openAllMines();
+        cellData.element.style.backgroundColor = "#910000";
         showDialog("Game over");
         return;
     }
@@ -153,7 +149,7 @@ function openAllMines() {
         for (let col = 0; col < minefieldHeight; col++) {
             const cellData = grid[row][col];
 
-            if (cellData.isMine) {
+            if (cellData.isMine && !cellData.isFlagged) {
                 cellData.element.classList.add("revealed");
                 cellData.element.classList.add("mine");
             }
@@ -171,13 +167,7 @@ function openNeighbours(row, col) {
             {
                 const neighbour = grid[neighbourRow][neighbourCol];
 
-                if (!neighbour.isOpened && !neighbour.isMine) {
-                    if (neighbour.isFlagged)
-                    {
-                        neighbour.isFlagged = false;
-                        neighbour.element.classList.remove("flagged");
-                    }
-
+                if (!neighbour.isOpened && !neighbour.isMine && !neighbour.isFlagged) {
                     neighbour.isOpened = true;
                     neighbour.element.classList.add("revealed");
                     openedCellsCount++;
@@ -194,7 +184,21 @@ function openNeighbours(row, col) {
 function checkWinCondition() {
     if (openedCellsCount === (minefieldWidth * minefieldHeight - mineAmount)) {
         isGameFinished = true;
+        WinFlagsOpen();
         showDialog("You win");
+    }
+}
+
+function WinFlagsOpen()
+{
+    for (let row = 0; row < minefieldWidth; row++) {
+        for (let col = 0; col < minefieldHeight; col++) {
+            const cellData = grid[row][col];
+
+            if (cellData.isMine  && !cellData.isFlagged){
+                cellData.element.classList.add("flagged");
+            }
+        }
     }
 }
 
