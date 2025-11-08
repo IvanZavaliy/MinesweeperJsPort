@@ -6,6 +6,13 @@ let isGameFinished = false;
 let isGameStarted = false;
 let openedCellsCount = 0;
 
+const minefield = document.getElementById("minefield");
+const dialog = document.getElementById("dialog");
+
+const widthInput = document.getElementById("minefieldWidth");
+const heightInput = document.getElementById("minefieldHeight");
+const mineInput = document.getElementById("mineCount");
+
 const selectCellColor = {
     1 : "blue",
     2 : "green",
@@ -17,8 +24,13 @@ const selectCellColor = {
     8 : "gray"
 };
 
-const minefield = document.getElementById("minefield");
-const dialog = document.getElementById("dialog");
+widthInput.addEventListener("change", validateInput);
+heightInput.addEventListener("change", validateInput);
+mineInput.addEventListener("change", validateInput);
+
+widthInput.addEventListener("change", updateMineCountMaxLimit);
+heightInput.addEventListener("change", updateMineCountMaxLimit);
+mineInput.addEventListener("change", updateMineCountMaxLimit);
 
 document.getElementById("minefieldGenerator").addEventListener("click", () => {
     minefieldWidth = parseInt(document.getElementById("minefieldHeight").value);
@@ -242,4 +254,43 @@ function setFlag(cellData) {
 
     cellData.isFlagged = !cellData.isFlagged;
     cellData.element.classList.toggle("flagged");
+}
+
+function validateInput(event) {
+    const input = event.target;
+    const min = parseInt(input.min);
+    const max = parseInt(input.max);
+    let value = parseInt(input.value);
+
+    const label = input.labels[0].textContent.trim().replace(':', '');
+
+    if (isNaN(value)) {
+        alert(`Please enter a number for "${label}".\nMinimum value set: ${min}.`);
+        input.value = min;
+        return;
+    }
+
+    if (value < min) {
+        alert(`"${label}" cannot be less ${min}.\nValue set: ${min}.`);
+        input.value = min;
+    }
+
+    if (value > max) {
+        alert(`"${label}" cannot be no more ${max}.\nValue set: ${max}.`);
+        input.value = max;
+    }
+}
+
+function updateMineCountMaxLimit() {
+    const width = parseInt(widthInput.value);
+    const height = parseInt(heightInput.value);
+
+    const newMaxMines = (width * height) - 10;
+
+    mineInput.max = newMaxMines;
+
+    if (mineInput.value > newMaxMines) {
+        alert(`The number of mines cannot exceed ${newMaxMines} for the field ${width}x${height}.\nMaximum value set.`);
+        mineInput.value = newMaxMines;
+    }
 }
