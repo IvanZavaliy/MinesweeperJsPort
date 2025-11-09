@@ -155,7 +155,7 @@ button {
     justify-self: center;
 }
 
-#bomb-count-panel {
+#mine-count-panel {
     grid-column: 1;
     justify-self: end;
 }

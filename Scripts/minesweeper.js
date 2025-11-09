@@ -14,6 +14,7 @@ const heightInput = document.getElementById("minefieldHeight");
 const mineInput = document.getElementById("mineCount");
 
 const timerText = document.getElementById("timer-display");
+const mineCountText = document.getElementById("mine-count");
 
 const stopwatch = stopwatchCreate();
 
@@ -41,6 +42,7 @@ document.getElementById("minefieldGenerator").addEventListener("click", () => {
     minefieldHeight = parseInt(document.getElementById("minefieldWidth").value);
 
     mineAmount = parseInt(document.getElementById("mineCount").value);
+    mineCountText.textContent = String(document.getElementById("mineCount").value).padStart(3, "0");
 
     startGame();
 })
@@ -62,6 +64,7 @@ function resetMinefield() {
     grid = [];
     minefield.innerHTML = "";
     stopwatch.reset();
+    mineCountText.textContent = String(mineAmount).padStart(3, "0");
 }
 
 function setupMinefield() {
@@ -232,6 +235,7 @@ function checkWinCondition() {
     if (openedCellsCount === (minefieldWidth * minefieldHeight - mineAmount)) {
         isGameFinished = true;
         stopwatch.stop();
+        mineCountText.textContent = "000";
         WinFlagsOpen();
         showDialog("You win");
     }
@@ -259,6 +263,15 @@ function setFlag(cellData) {
     if (isGameFinished || cellData.isOpened) {
         return;
     }
+
+    if (!cellData.isFlagged && mineCountText.textContent === "000")
+    {
+        return;
+    }
+    else if (cellData.isFlagged)
+        mineCountText.textContent = String(parseInt(mineCountText.textContent, 10) + 1).padStart(3, "0");
+    else
+        mineCountText.textContent = String(parseInt(mineCountText.textContent, 10) - 1).padStart(3, "0");
 
     cellData.isFlagged = !cellData.isFlagged;
     cellData.element.classList.toggle("flagged");
