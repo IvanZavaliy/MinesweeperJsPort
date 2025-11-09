@@ -204,7 +204,7 @@ function openAllMines() {
 
             if (!cellData.isMine && cellData.isFlagged) {
                 cellData.element.classList.add("revealed");
-                cellData.element.classList.add("mine-crosse");
+                cellData.element.classList.add("mine-crossed");
             }
         }
     }
