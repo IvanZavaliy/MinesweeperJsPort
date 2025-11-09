@@ -201,6 +201,11 @@ function openAllMines() {
                 cellData.element.classList.add("revealed");
                 cellData.element.classList.add("mine");
             }
+
+            if (!cellData.isMine && cellData.isFlagged) {
+                cellData.element.classList.add("revealed");
+                cellData.element.classList.add("mine-crosse");
+            }
         }
     }
 }

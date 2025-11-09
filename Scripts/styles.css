@@ -24,24 +24,24 @@
 
     grid-template-columns: 1fr auto 1fr;
 
-    gap: 20px; /* Відстань між колонками */
+    gap: 20px;
     align-items: flex-start;
-    width: 100%; /* Дуже важливо, щоб сітка займала всю ширину */
-    margin-bottom: 20px; /* Відступ знизу, який раніше був у .information-panel */
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .indicator-display {
-    background-color: #111; /* Темний фон */
-    color: #ff4141;         /* Червоні цифри (або оберіть #00ff00 для зеленого) */
-    font-family: 'Courier New', Courier, monospace; /* "Цифровий" шрифт */
-    font-size: 2.2em;       /* Більший розмір */
+    background-color: #111;
+    color: #ff4141;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 2.2em;
     font-weight: bold;
     padding: 2px;
     border-radius: 5px;
     text-align: center;
     border: 2px solid #636363;
-    letter-spacing: 3px;    /* Відстань між цифрами */
-    min-width: 100px;       /* Мінімальна ширина, щоб виглядало солідно */
+    letter-spacing: 3px;
+    min-width: 100px;
 }
 
 fieldset {
@@ -119,6 +119,12 @@ button:hover {
 .cell.mine.revealed {
     background-color: #4e4e4e;
     background-image: url('../Assets/Images/mine.png');
+    background-size: 75%;
+}
+
+.cell.mine-crossed.revealed {
+    background-color: #4e4e4e;
+    background-image: url('../Assets/Images/mine_crossed.png');
     background-size: 75%;
 }
 
