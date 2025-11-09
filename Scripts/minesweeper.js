@@ -13,6 +13,8 @@ const widthInput = document.getElementById("minefieldWidth");
 const heightInput = document.getElementById("minefieldHeight");
 const mineInput = document.getElementById("mineCount");
 
+const timerText = document.getElementById("timer-display");
+
 const stopwatch = stopwatchCreate();
 
 const selectCellColor = {
@@ -267,8 +269,16 @@ function stopwatchCreate() {
     let internalID = null;
 
     function tick() {
-        seconds++;
-        console.log(seconds);
+        if (seconds >= 999)
+        {
+            seconds = 0;
+            timerText.textContent = "000";
+        }
+        else
+        {
+            seconds++;
+            timerText.textContent = String(seconds).padStart(3, "0");
+        }
     }
 
     return {
@@ -295,6 +305,7 @@ function stopwatchCreate() {
             if (internalID)
                 this.stop();
             seconds = 0;
+            timerText.textContent = "000";
         }
     }
 }
