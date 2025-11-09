@@ -8,36 +8,61 @@
     color: #fff;
 }
 
-.control-panel {
+.information-panel {
     display: flex;
+    flex-direction: row;
     gap: 15px;
     align-items: center;
     background: linear-gradient(135deg, #4a4a4a, #2e2e2e);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    margin-bottom: 20px;
 }
 
-.control-panel fieldset {
+.panels-wrapper {
+    display: grid;
+
+    grid-template-columns: 1fr auto 1fr;
+
+    gap: 20px; /* Відстань між колонками */
+    align-items: flex-start;
+    width: 100%; /* Дуже важливо, щоб сітка займала всю ширину */
+    margin-bottom: 20px; /* Відступ знизу, який раніше був у .information-panel */
+}
+
+.indicator-display {
+    background-color: #111; /* Темний фон */
+    color: #ff4141;         /* Червоні цифри (або оберіть #00ff00 для зеленого) */
+    font-family: 'Courier New', Courier, monospace; /* "Цифровий" шрифт */
+    font-size: 2.2em;       /* Більший розмір */
+    font-weight: bold;
+    padding: 2px;
+    border-radius: 5px;
+    text-align: center;
+    border: 2px solid #636363;
+    letter-spacing: 3px;    /* Відстань між цифрами */
+    min-width: 100px;       /* Мінімальна ширина, щоб виглядало солідно */
+}
+
+fieldset {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
     border: 2px solid #007acc;
 }
 
-.fieldsed-content {
+.fieldset-content {
     display: flex;
     gap: 15px;
 }
 
-.control-panel label {
+.information-panel label {
     display: flex;
     flex-direction: column;
     font-size: 0.9em;
 }
 
-.control-panel input {
+.information-panel input {
     margin-top: 5px;
     padding: 5px;
     border: none;
@@ -123,4 +148,18 @@ button {
     margin-top: 10px;
     padding: 5px 10px;
     cursor: pointer;
+}
+
+#control-panel {
+    grid-column: 2;
+    justify-self: center;
+}
+
+#bomb-count-panel {
+    grid-column: 1;
+    justify-self: end;
+}
+#timer-panel {
+    grid-column: 3;
+    justify-self: start;
 }

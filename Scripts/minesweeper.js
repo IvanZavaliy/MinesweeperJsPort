@@ -13,6 +13,8 @@ const widthInput = document.getElementById("minefieldWidth");
 const heightInput = document.getElementById("minefieldHeight");
 const mineInput = document.getElementById("mineCount");
 
+const stopwatch = stopwatchCreate();
+
 const selectCellColor = {
     1 : "blue",
     2 : "green",
@@ -57,6 +59,7 @@ function resetMinefield() {
     openedCellsCount = 0;
     grid = [];
     minefield.innerHTML = "";
+    stopwatch.reset();
 }
 
 function setupMinefield() {
@@ -153,6 +156,7 @@ function openCell(cellData) {
         isGameStarted = true;
         mineGenerator(cellData);
         calculateNeighbours();
+        stopwatch.start();
     }
 
     if (isGameFinished || cellData.isOpened || cellData.isFlagged)
@@ -168,6 +172,7 @@ function openCell(cellData) {
         isGameFinished = true;
         openAllMines();
         cellData.element.style.backgroundColor = "#910000";
+        stopwatch.stop();
         showDialog("Game over");
         return;
     }
@@ -224,6 +229,7 @@ function openNeighbours(row, col) {
 function checkWinCondition() {
     if (openedCellsCount === (minefieldWidth * minefieldHeight - mineAmount)) {
         isGameFinished = true;
+        stopwatch.stop();
         WinFlagsOpen();
         showDialog("You win");
     }
@@ -254,6 +260,43 @@ function setFlag(cellData) {
 
     cellData.isFlagged = !cellData.isFlagged;
     cellData.element.classList.toggle("flagged");
+}
+
+function stopwatchCreate() {
+    let seconds = 0;
+    let internalID = null;
+
+    function tick() {
+        seconds++;
+        console.log(seconds);
+    }
+
+    return {
+        start: function () {
+            if (internalID) {
+                console.warn("WARNING\nStopwatch already started");
+                return;
+            }
+
+            internalID = setInterval(tick, 1000);
+        },
+
+        stop: function () {
+            if (!internalID) {
+                console.warn("WARNING\nStopwatch not started");
+                return;
+            }
+
+            clearInterval(internalID);
+            internalID = null;
+        },
+
+        reset: function () {
+            if (internalID)
+                this.stop();
+            seconds = 0;
+        }
+    }
 }
 
 function validateInput(event) {
